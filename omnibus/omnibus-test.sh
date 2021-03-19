@@ -7,24 +7,24 @@ version="${VERSION:-latest}"
 
 export INSTALL_DIR="/opt/$product"
 
-echo "--- Installing $channel $product $version"
-package_file="$("/opt/$TOOLCHAIN/bin/install-omnibus-product" -c "$channel" -P "$product" -v "$version" | tail -1)"
+# echo "--- Installing $channel $product $version"
+# package_file="$("/opt/$TOOLCHAIN/bin/install-omnibus-product" -c "$channel" -P "$product" -v "$version" | tail -1)"
 
-echo "--- Verifying omnibus package is signed"
-"/opt/$TOOLCHAIN/bin/check-omnibus-package-signed" "$package_file"
+# echo "--- Verifying omnibus package is signed"
+# "/opt/$TOOLCHAIN/bin/check-omnibus-package-signed" "$package_file"
 
-sudo rm -f "$package_file"
+# sudo rm -f "$package_file"
 
-echo "--- Verifying ownership of package files"
+# echo "--- Verifying ownership of package files"
 
-NONROOT_FILES="$(find "$INSTALL_DIR" ! -user 0 -print)"
-if [[ "$NONROOT_FILES" == "" ]]; then
-  echo "Packages files are owned by root.  Continuing verification."
-else
-  echo "Exiting with an error because the following files are not owned by root:"
-  echo "$NONROOT_FILES"
-  exit 1
-fi
+# NONROOT_FILES="$(find "$INSTALL_DIR" ! -user 0 -print)"
+# if [[ "$NONROOT_FILES" == "" ]]; then
+#   echo "Packages files are owned by root.  Continuing verification."
+# else
+#   echo "Exiting with an error because the following files are not owned by root:"
+#   echo "$NONROOT_FILES"
+#   exit 1
+# fi
 
 echo "--- Running verification for $channel $product $version"
 
@@ -150,5 +150,8 @@ fi
 export CHEF_LICENSE=accept-no-persist
 
 cd "$chef_gem"
-sudo -E bundle install --jobs=3 --retry=3
-sudo -E bundle exec rspec --profile -f progress
+# sudo -E bundle install --jobs=3 --retry=3
+# sudo -E bundle exec rspec --profile -f documentation spec/functional/resource/cron_spec.rb spec/functional/resource/group_spec.rb spec/functional/resource/user/mac_user_spec.rb
+# sudo -E bundle exec rspec --profile -f documentation spec/functional/resource/user/mac_user_spec.rb spec/functional/resource/group_spec.rb spec/functional/resource/cron_spec.rb
+sudo -E bundle exec rspec --profile -f documentation spec/functional/resource/user/mac_user_spec.rb
+sudo -E bundle exec rspec --profile -f documentation spec/functional/resource/group_spec.rb
